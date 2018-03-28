@@ -24,12 +24,20 @@ n_train = 60000
 n_test = 10000
 
 # Step 1: Read in data
-mnist_folder = 'data/{0}'.format(sys.argv[1])
-utils.download_mnist(mnist_folder)
+if sys.argv[1] == 'mnist':
+    mnist_folder = 'data/{0}'.format(sys.argv[1])
+    utils.download_mnist(mnist_folder)
+elif sys.argv[1] == 'not_mnist':
+    mnist_folder = 'data/{0}'.format(sys.argv[1])
+    # download data manually from https://github.com/davidflanagan/notMNIST-to-MNIST
+else:
+    raise ValueError('You would need to download and format data for {0} '
+                     'the MNIST way'.format(sys.argv[1]))
 train, val, test = utils.read_mnist(mnist_folder, flatten=True)
 
 # Step 2: Create datasets and iterator
 print('Create training Dataset and batch it...')
+# NOTE: it appears to be much faster if this step is done in GPU
 train_data = tf.data.Dataset.from_tensor_slices(train)
 train_data = train_data.shuffle(10000)  # if you want to shuffle your data
 train_data = train_data.batch(batch_size)
