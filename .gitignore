@@ -8,3 +8,5 @@ examples/data
 examples/graphs/*
 examples/checkpoints/*
 examples/visualization/*
+
+.ipynb_checkpoints/
