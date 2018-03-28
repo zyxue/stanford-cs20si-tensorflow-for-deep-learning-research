@@ -108,3 +108,13 @@ Average loss epoch 29: 0.7091376062742499
 Total time: 34.40691137313843 seconds
 Accuracy 0.872
 ```
+
+To visualize the graph:
+
+```
+tensorboard --port 22222 --logdir ./graphs/
+````
+
+A screenshot:
+
+<img src="https://github.com/zyxue/stanford-cs20si-tensorflow-for-deep-learning-research/blob/master/assignments/01/q2_graph_logreg.png?raw=true" />
