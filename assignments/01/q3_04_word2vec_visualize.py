@@ -23,9 +23,9 @@ EMBED_SIZE = 128            # dimension of the word embedding vectors
 SKIP_WINDOW = 1             # the context window
 NUM_SAMPLED = 64            # number of negative examples to sample
 LEARNING_RATE = 1.0
-NUM_TRAIN_STEPS = 100000
+NUM_TRAIN_STEPS = 1000
 VISUAL_FLD = 'visualization'
-SKIP_STEP = 5000
+SKIP_STEP = 500
 
 # Parameters for downloading data
 DOWNLOAD_URL = 'http://mattmahoney.net/dc/text8.zip'
@@ -143,6 +143,7 @@ class SkipGramModel:
                 'graphs/word2vec/lr' + str(self.lr), sess.graph)
             initial_step = self.global_step.eval()
 
+            target_step = initial_step + num_train_steps
             for index in range(initial_step, initial_step + num_train_steps):
                 try:
                     loss_batch, _, summary = sess.run(
@@ -151,8 +152,8 @@ class SkipGramModel:
                     writer.add_summary(summary, global_step=index)
                     total_loss += loss_batch
                     if (index + 1) % self.skip_step == 0:
-                        print('Average loss at step {}: {:5.1f}'.format(
-                            index, total_loss / self.skip_step))
+                        print('Average loss at step {0}/{1}: {2:5.6f}'.format(
+                            index + 1, target_step, total_loss / self.skip_step))
                         total_loss = 0.0
                         saver.save(sess, 'checkpoints/skip-gram', index)
                 except tf.errors.OutOfRangeError:
